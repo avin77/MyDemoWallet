@@ -47696,15 +47696,15 @@ PrefabInstance:
       objectReference: {fileID: 71058177}
     - target: {fileID: 6266890725912523073, guid: 116667ed98661304da1568439e2a3426, type: 3}
       propertyPath: Web3RpcNodeUrl
-      value: RPC NODE URI
+      value: https://speedy-nodes-nyc.moralis.io/3b969643428edea9eb68e1fe/polygon/mainnet
       objectReference: {fileID: 0}
     - target: {fileID: 6266890725912523073, guid: 116667ed98661304da1568439e2a3426, type: 3}
       propertyPath: MoralisServerURI
-      value: SERVER URI
+      value: https://mxcqix7c5ehs.usemoralis.com:2053/server
       objectReference: {fileID: 0}
     - target: {fileID: 6266890725912523073, guid: 116667ed98661304da1568439e2a3426, type: 3}
       propertyPath: MoralisApplicationId
-      value: APPLICATION ID
+      value: 8tXHcdg5U2AgTbpwCndq4A60R4bd1KSj7uWQ5Fue
       objectReference: {fileID: 0}
     - target: {fileID: 6266890725912523102, guid: 116667ed98661304da1568439e2a3426, type: 3}
       propertyPath: m_RootOrder
