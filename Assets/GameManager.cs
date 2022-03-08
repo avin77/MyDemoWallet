@@ -12,6 +12,8 @@ using Moralis.Platform.Objects;
 //WalletConnect
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
+using Moralis.Web3Api.Models;
+using Assets.Scripts.Moralis;
 
 public class GameManager : MonoBehaviour
 {
@@ -113,14 +115,52 @@ public class GameManager : MonoBehaviour
     private async void UserLoggedInHandler()
     {
         var user = await MoralisInterface.GetUserAsync();
-
+        
         if (user != null)
         {
             connectButton.SetActive(false);
+            List<ChainEntry> chains = MoralisInterface.SupportedChains;
 
+            Debug.Log((ChainList)4);
             string addr = user.authData["moralisEth"]["id"].ToString();
-            walletAddress.text = "Formatted Wallet Address:\n" + string.Format("{0}...{1}", addr.Substring(0, 6), addr.Substring(addr.Length - 3, 3));
+            List<Erc20TokenBalance> balanceList = await MoralisInterface.GetClient().Web3Api.Account.GetTokenBalances(addr.ToLower(), (ChainList)3);
+            Debug.Log("balanceListcount"+balanceList.Count);
+            foreach (var v in balanceList) {
+                Debug.Log("tokenbalancelist"+v);
+            }
+            double balance = 0.0;
+            NativeBalance bal =
+            await MoralisInterface.GetClient().Web3Api.Account.GetNativeBalance(addr.ToLower(),
+                                        (ChainList)4);
+
+            Debug.Log("balance" + bal.ToString());
+            if (bal != null && !string.IsNullOrWhiteSpace(bal.Balance))
+            {
+                double.TryParse(bal.Balance, out balance);
+            }
+            
+            // Display native token amount (ETH) in fractions of ETH.
+            // NOTE: May be better to link this to chain since some tokens may have
+            // more than 18 sigjnificant figures.
+            //balanceText.text = string.Format("{0:0.##} ETH", balance / (double)Mathf.Pow(10.0f, 18.0f));
+            walletAddress.text = "Formatted Wallet Address:\n" + string.Format("{0}...{1}", addr.Substring(0, 6), addr.Substring(addr.Length - 3, 3))+ string.Format("{0:0.##} ETH", balance / (double)Mathf.Pow(10.0f, 18.0f)); ;
+            
+            
+            /*//balanceText.text = string.Format("{0:0.##} ETH", balance / (double)Mathf.Pow(10.0f, 18.0f));
+            // Make sure a response to the balanace request weas received. The 
+            // IsNullOrWhitespace check may not be necessary ...
+            if (bal != null && !string.IsNullOrWhiteSpace(bal.Balance))
+            {
+                double.TryParse(bal.Balance, out balance);
+            }
+
+            // Display native token amount (ETH) in fractions of ETH.
+            // NOTE: May be better to link this to chain since some tokens may have
+            // more than 18 sigjnificant figures.*/
+            
         }
+        // Retrieve account balanace.
+        
     }
 
     private async void LogOut()
